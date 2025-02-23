@@ -4,4 +4,3 @@ WORKDIR /app
 COPY gestion-usuarios/ .
 EXPOSE 3000
 CMD ["npm", "run", "start:dev"]
-#TODO LO DEL DOCKERFILE QUEDÓ DENTRO DEL CONTEDOR
