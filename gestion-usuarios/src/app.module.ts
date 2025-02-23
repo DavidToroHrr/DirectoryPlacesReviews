@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlacesModule } from './places/places.module';  // Asegúrate de importar tu módulo
+import { ModificationModule } from './modificationHistory/modificationsHistory.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
 
@@ -19,7 +21,9 @@ import { PlacesModule } from './places/places.module';  // Asegúrate de importa
 
     }),
     MongooseModule.forRoot(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/demo_nest?authSource=admin`),
-    PlacesModule
+    PlacesModule, 
+    ModificationModule,
+    ReviewsModule
   ],
   controllers: [],
   providers: [],
