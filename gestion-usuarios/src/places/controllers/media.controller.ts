@@ -37,7 +37,8 @@ export class MediaController {
         return {
             id: media.md_id,
             description: media.md_description,
-            image: `data:image/jpeg;base64,${media.md_image}`, // 🔹 Prefijo para frontend
+            image: `data:image/jpeg;base64,${media.md_image}`,
+            reference: media.places // 🔹 Prefijo para frontend
         };
     }
 }

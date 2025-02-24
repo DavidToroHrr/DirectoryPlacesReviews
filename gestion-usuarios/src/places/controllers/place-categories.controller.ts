@@ -12,4 +12,9 @@ export class PlaceCategoriesController {
     ) {
         return this.placeCategoriesService.createPlaceCategories(createPlaceCategoriesDto);
     }
+
+    @Get()
+    async getPlaceCategories() {
+        return this.placeCategoriesService.getPlaceCategories();
+    }
 }

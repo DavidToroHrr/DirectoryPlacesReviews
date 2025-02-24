@@ -39,4 +39,8 @@ export class PlaceCategoriesService {
         return await this.placeCategoriesRepository.save(createdPlaceCategories);
     }
 
+    async getPlaceCategories(): Promise<PlaceCategories[]> {
+        return await this.placeCategoriesRepository.find();
+    }
+
 }

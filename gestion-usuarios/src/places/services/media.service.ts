@@ -28,7 +28,7 @@ export class MediaService {
             plc_id: createMediaDto.plc_id,
             places: place,
             md_image: createMediaDto.md_image, // 🔹 Ya es Base64, solo lo guardamos
-            md_description: createMediaDto.md_description,
+            md_description: createMediaDto.md_description, // 🔹 Convierte "" en NULL
         };
 
         const createdMedia = this.mediaRepository.create(newMedia);
@@ -36,7 +36,7 @@ export class MediaService {
     }
 
     async getMediaById(id: number): Promise<Media> {
-        const media = await this.mediaRepository.findOne({ where: { md_id: id } });
+        const media = await this.mediaRepository.findOne({ where: { md_id: id }, relations: ['places'] });
     
         if (!media) {
             throw new NotFoundException(`No se encontró la imagen con ID ${id}`);
