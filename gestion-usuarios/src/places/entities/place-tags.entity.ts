@@ -1,20 +1,38 @@
 import { Entity, Column, ManyToOne, PrimaryColumn, JoinColumn } from "typeorm";
 import { Places } from "./places.entity";
 import { Tags } from "./tags.entity";
-@Entity({ name: "place_tags" }) // Asegurar que coincide con la tabla en MySQL
-export class PlaceTags{
-    @PrimaryColumn({ type: "int" }) // Clave primaria compuesta (parte 1)
-    plc_id: number;
-    @PrimaryColumn({ type: "int" }) // Clave primaria compuesta (parte 2)
-    tag_id: number;
-    // Relación con Places
 
+/**
+ * Entity representing the relationship between places and tags.
+ */
+@Entity({ name: "place_tags" }) 
+export class PlaceTags {
+
+    /**
+     * Primary key (part 1) - Identifier of the place.
+     */
+    @PrimaryColumn({ type: "int" }) 
+    plc_id: number;
+
+    /**
+     * Primary key (part 2) - Identifier of the tag.
+     */
+    @PrimaryColumn({ type: "int" }) 
+    tag_id: number;
+
+    /**
+     * Many-to-One relationship with Places.
+     * Ensures that when a place is deleted, related entries are also removed.
+     */
     @ManyToOne(() => Places, (place) => place.placeTags, { onDelete: "CASCADE" })
-    @JoinColumn({ name: "plc_id" }) // Especifica la clave foránea en la BD
+    @JoinColumn({ name: "plc_id" }) 
     places: Places;
-    
-    // Relación con Tags
+
+    /**
+     * Many-to-One relationship with Tags.
+     * Ensures that when a tag is deleted, related entries are also removed.
+     */
     @ManyToOne(() => Tags, (tag) => tag.placeTags, { onDelete: "CASCADE" })
-    @JoinColumn({ name: "tag_id" }) // Especifica la clave foránea en la BD
+    @JoinColumn({ name: "tag_id" }) 
     tags: Tags;
 }

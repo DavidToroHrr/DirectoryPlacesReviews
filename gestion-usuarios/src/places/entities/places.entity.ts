@@ -2,6 +2,10 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Media } from "./media.entity";
 import { PlaceCategories } from "./place-categories.entity";
 import { PlaceTags } from "./place-tags.entity";
+
+/**
+ * Enum representing the possible types of places.
+ */
 export enum PlaceType {
     RESTAURANT = "restaurant",
     PARK = "park",
@@ -9,34 +13,66 @@ export enum PlaceType {
     CAFE = "cafe"
 }
 
-@Entity({ name: "places" }) // Asegurar que coincida con el nombre en MySQL
+/**
+ * Entity representing a place.
+ */
+@Entity({ name: "places" }) 
 export class Places {
-    @PrimaryGeneratedColumn({type: "int"}) // Mantiene el autoincremental de SQL
-    plc_id: number; // Asegurar que el nombre de la columna coincide con SQL
 
-    @Column({type: "varchar", length: 30, nullable: false, unique: true})
-    plc_name: string; // Asegurar que el nombre de la columna coincide con SQL 
+    /**
+     * Primary key - Auto-incremented identifier for the place.
+     */
+    @PrimaryGeneratedColumn({ type: "int" }) 
+    plc_id: number;
 
-    @Column({type: "varchar", length: 60, nullable: false})
-    plc_address: string; // Asegurar que el nombre de la columna coincide con SQL 
+    /**
+     * Name of the place. Must be unique.
+     */
+    @Column({ type: "varchar", length: 30, nullable: false, unique: true })
+    plc_name: string;
 
+    /**
+     * Address of the place.
+     */
+    @Column({ type: "varchar", length: 60, nullable: false })
+    plc_address: string;
+
+    /**
+     * Type of place, based on the defined enum.
+     */
     @Column({ type: 'enum', enum: PlaceType, nullable: false })
     plc_type: PlaceType; 
 
-    @Column({type: "varchar",length:100 ,nullable: false})
-    plc_operating_hours?: string; // Asegurar que el nombre de la columna coincide con SQL
+    /**
+     * Operating hours of the place.
+     */
+    @Column({ type: "varchar", length: 100, nullable: false })
+    plc_operating_hours?: string;
 
-    @Column({type: "text", nullable: false})
-    plc_description?: string; // Asegurar que el nombre de la columna coincide con SQL
+    /**
+     * Description of the place.
+     */
+    @Column({ type: "text", nullable: false })
+    plc_description?: string;
 
+    /**
+     * One-to-Many relationship with Media.
+     * A place can have multiple associated media entries.
+     */
     @OneToMany(() => Media, (media) => media.places)
-    media: Media[]; // Define la relación inversa
+    media: Media[];
 
-    // 🔹 Relación con PlaceCategories
+    /**
+     * One-to-Many relationship with PlaceCategories.
+     * A place can belong to multiple categories.
+     */
     @OneToMany(() => PlaceCategories, (placeCategory) => placeCategory.places)
     placeCategories: PlaceCategories[];
 
-    // 🔹 Relación con PlaceTags
+    /**
+     * One-to-Many relationship with PlaceTags.
+     * A place can have multiple associated tags.
+     */
     @OneToMany(() => PlaceTags, (placeTag) => placeTag.places)
     placeTags: PlaceTags[];
-    }
+}

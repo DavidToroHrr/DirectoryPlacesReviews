@@ -2,22 +2,37 @@ import { Entity, Column, ManyToOne, PrimaryColumn, JoinColumn } from "typeorm";
 import { Places } from "./places.entity";
 import { Categories } from "./categories.entity";
 
-@Entity({ name: "place_categories" }) // Asegurar que coincide con la tabla en MySQL
+/**
+ * Entity representing the relationship between places and categories.
+ */
+@Entity({ name: "place_categories" }) 
 export class PlaceCategories {
 
-    @PrimaryColumn({ type: "int" }) // Clave primaria compuesta (parte 1)
+    /**
+     * Primary key (part 1) - Identifier of the place.
+     */
+    @PrimaryColumn({ type: "int" }) 
     plc_id: number;
 
-    @PrimaryColumn({ type: "int" }) // Clave primaria compuesta (parte 2)
+    /**
+     * Primary key (part 2) - Identifier of the category.
+     */
+    @PrimaryColumn({ type: "int" }) 
     ctg_id: number;
 
-    // Relación con Places
+    /**
+     * Many-to-One relationship with Places.
+     * Ensures that when a place is deleted, related entries are also removed.
+     */
     @ManyToOne(() => Places, (place) => place.placeCategories, { onDelete: "CASCADE" })
-    @JoinColumn({ name: "plc_id" }) // Especifica la clave foránea en la BD
+    @JoinColumn({ name: "plc_id" }) 
     places: Places;
 
-    // Relación con Categories
+    /**
+     * Many-to-One relationship with Categories.
+     * Ensures that when a category is deleted, related entries are also removed.
+     */
     @ManyToOne(() => Categories, (category) => category.placeCategories, { onDelete: "CASCADE" })
-    @JoinColumn({ name: "ctg_id" }) // Especifica la clave foránea en la BD
+    @JoinColumn({ name: "ctg_id" }) 
     categories: Categories;
 }

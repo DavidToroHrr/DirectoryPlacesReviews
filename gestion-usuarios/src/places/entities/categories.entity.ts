@@ -1,15 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn,OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { PlaceCategories } from "./place-categories.entity";
 
-@Entity({ name: "categories" }) // Asegurar que coincida con el nombre en MySQL
+@Entity({ name: "categories" }) // Defines the "categories" entity, ensuring it matches the MySQL table name
 export class Categories {
-  @PrimaryGeneratedColumn({ type: "int" }) // Mantiene el autoincremental de SQL
-  ctg_id: number; // Asegurar que el nombre de la columna coincide con SQL
+  @PrimaryGeneratedColumn({ type: "int" }) // Primary key with auto-increment
+  ctg_id: number; // Category ID
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 100 }) // Category name column with a max length of 100 characters
   ctg_name: string;
 
-   // 🔹 Relación con PlaceCategories
-   @OneToMany(() => PlaceCategories, (placeCategory) => placeCategory.categories)
-   placeCategories: PlaceCategories[];
+  @OneToMany(() => PlaceCategories, (placeCategory) => placeCategory.categories) // One-to-many relationship with PlaceCategories
+  placeCategories: PlaceCategories[];
 }

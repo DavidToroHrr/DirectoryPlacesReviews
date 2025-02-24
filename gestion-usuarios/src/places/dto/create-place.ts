@@ -1,22 +1,50 @@
-import { IsString, IsOptional, IsEnum} from 'class-validator';
+import { IsString, IsOptional, IsEnum } from 'class-validator';
 import { PlaceType } from '../entities/places.entity';
+
+/**
+ * Data Transfer Object (DTO) for creating a new place.
+ */
 export class CreatePlace { 
-    @IsOptional() // No es necesario enviarlo, MySQL lo genera automáticamente
+
+    /**
+     * Unique identifier for the place.
+     * Optional because MySQL generates it automatically.
+     */
+    @IsOptional()
     plc_id?: number;
 
-    @IsString() // Solo se permiten valores de tipo string
+    /**
+     * Name of the place.
+     * Must be a string.
+     */
+    @IsString()
     plc_name: string;
 
-    @IsString() // Solo se permiten valores de tipo string
+    /**
+     * Address of the place.
+     * Must be a string.
+     */
+    @IsString()
     plc_address: string;
 
-    @IsEnum(['RESTAURANT', 'PARK', 'MUSEUM', 'CAFE']) // Solo se permiten estos valores
+    /**
+     * Type of place.
+     * Must be one of the predefined values: RESTAURANT, PARK, MUSEUM, or CAFE.
+     */
+    @IsEnum(['RESTAURANT', 'PARK', 'MUSEUM', 'CAFE'])
     plc_type: PlaceType; 
 
-    @IsOptional() // No es necesario enviarlo, MySQL lo genera automáticamente
+    /**
+     * Operating hours of the place.
+     * Optional, as MySQL can generate it automatically.
+     */
+    @IsOptional()
     plc_operating_hours: string; 
 
-    @IsOptional() // No es necesario enviarlo, MySQL lo genera automáticamente
+    /**
+     * Description of the place.
+     * Optional, as MySQL can generate it automatically.
+     */
+    @IsOptional()
     plc_description: string; 
-
 }

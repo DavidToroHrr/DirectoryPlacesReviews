@@ -1,14 +1,28 @@
-import { Entity, Column, PrimaryGeneratedColumn,OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { PlaceTags } from "./place-tags.entity";
-@ Entity({ name: "tags" }) // Asegurar que coincida con el nombre en MySQL
-export class Tags{
-    @PrimaryGeneratedColumn({ type: "int" }) // Mantiene el autoincremental de SQL
-    tag_id?: number; // Asegurar que el nombre de la columna coincide con SQL
 
-    @Column({ type: "varchar", length: 100, nullable: false, unique:true })
+/**
+ * Entity representing a tag.
+ */
+@Entity({ name: "tags" }) 
+export class Tags {
+
+    /**
+     * Primary key - Auto-incremented identifier for the tag.
+     */
+    @PrimaryGeneratedColumn({ type: "int" }) 
+    tag_id?: number;
+
+    /**
+     * Name of the tag. Must be unique.
+     */
+    @Column({ type: "varchar", length: 100, nullable: false, unique: true })
     tag_name: string;
 
-    // 🔹 Relación con PlaceTags
+    /**
+     * One-to-Many relationship with PlaceTags.
+     * A tag can be associated with multiple places.
+     */
     @OneToMany(() => PlaceTags, (placeTag) => placeTag.tags)
     placeTags: PlaceTags[];
 }
