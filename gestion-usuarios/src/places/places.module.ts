@@ -17,9 +17,12 @@ import { MediaController } from './controllers/media.controller';
 import { MediaService } from './services/media.service';
 import { Media } from './entities/media.entity';
 
+import { PlaceCategories } from './entities/place-categories.entity';
+import { PlaceCategoriesService } from './services/place-categories.service';
+import { PlaceCategoriesController } from './controllers/place-categories.controller';
 @Module({
-    imports: [TypeOrmModule.forFeature([Categories,Places,Tags,Media])],
-    controllers: [CategoryController,PlaceController,TagController,MediaController],
-    providers: [CategoriesService,PlacesService,TagsService,MediaService],
+    imports: [TypeOrmModule.forFeature([Categories,Places,Tags,Media,PlaceCategories])],
+    controllers: [CategoryController,PlaceController,TagController,MediaController,PlaceCategoriesController],
+    providers: [CategoriesService,PlacesService,TagsService,MediaService,PlaceCategoriesService],
 })
 export class PlacesModule {}

@@ -27,7 +27,7 @@ services:
     image: mongo
     container_name: mongodb
     ports:
-      - "27018:27017"
+      - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=DavidToroHrr
       - MONGO_INITDB_ROOT_PASSWORD=12345
@@ -40,7 +40,7 @@ services:
     image: mysql:8.0
     container_name: mysql
     ports:
-      - "3307:3306"
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=12345
     volumes:

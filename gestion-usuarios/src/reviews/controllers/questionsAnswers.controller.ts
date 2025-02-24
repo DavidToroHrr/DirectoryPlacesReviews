@@ -8,6 +8,7 @@ export class QuestionsAnswersController {
 
   @Post()
   async createQuestionsAnswers(@Body() questionAnswer: QuestionsAnswersDto) {
+    console.log(questionAnswer);
     return this.questionsAnswersService.saveQuestionsAnswers(questionAnswer);
   }
 

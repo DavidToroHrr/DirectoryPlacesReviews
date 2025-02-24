@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Media } from "./media.entity";
+import { PlaceCategories } from "./place-categories.entity";
 export enum PlaceType {
     RESTAURANT = "restaurant",
     PARK = "park",
@@ -30,4 +31,7 @@ export class Places {
     @OneToMany(() => Media, (media) => media.places)
     media: Media[]; // Define la relación inversa
 
+    // 🔹 Relación con PlaceCategories
+    @OneToMany(() => PlaceCategories, (placeCategory) => placeCategory.places)
+    placeCategories: PlaceCategories[];
     }

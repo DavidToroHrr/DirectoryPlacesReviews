@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn,OneToMany } from "typeorm";
+import { PlaceCategories } from "./place-categories.entity";
 
 @Entity({ name: "categories" }) // Asegurar que coincida con el nombre en MySQL
 export class Categories {
@@ -7,4 +8,8 @@ export class Categories {
 
   @Column({ type: "varchar", length: 100 })
   ctg_name: string;
+
+   // 🔹 Relación con PlaceCategories
+   @OneToMany(() => PlaceCategories, (placeCategory) => placeCategory.categories)
+   placeCategories: PlaceCategories[];
 }
