@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class ModificationHistoryService {
-  constructor(@InjectModel('Modification History') private ModificationModel: Model<ModificationHistoryDocument>) {}
+  constructor(@InjectModel(ModificationHistory.name) private ModificationModel: Model<ModificationHistoryDocument>) {}
 
   async createModification(Modification: ModificationHistoryDto): Promise<ModificationHistoryDocument> {
     const newModification = await this.ModificationModel.create(Modification);

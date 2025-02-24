@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class ReviewsService {
-  constructor(@InjectModel('Review') private reviewModel: Model<ReviewDocument>) {}
+  constructor(@InjectModel(Review.name) private reviewModel: Model<ReviewDocument>) {}
 
   async createReview(review: ReviewDto): Promise<ReviewDocument> {
     const newReview = await this.reviewModel.create(review);

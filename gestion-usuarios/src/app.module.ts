@@ -8,6 +8,9 @@ import { ReviewsModule } from './reviews/reviews.module';
 @Module({
 
   imports: [
+    PlacesModule, 
+    ModificationModule,
+    ReviewsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST,
@@ -20,10 +23,12 @@ import { ReviewsModule } from './reviews/reviews.module';
 
 
     }),
-    MongooseModule.forRoot(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/demo_nest?authSource=admin`),
-    PlacesModule, 
-    ModificationModule,
-    ReviewsModule
+    MongooseModule.forRoot(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/demo_nest?authSource=admin`,
+      {
+        directConnection: true,
+        serverSelectionTimeoutMS: 5000 
+      }
+    ),
   ],
   controllers: [],
   providers: [],
