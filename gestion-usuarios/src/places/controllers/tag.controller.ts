@@ -7,7 +7,7 @@ export class TagController {
     constructor(private tagsService: TagsService) {}
 
     @Post()
-    createTag(@Body()newTag: CreateTag) {
+    async createTag(@Body()newTag: CreateTag) {
         return this.tagsService.createTag(newTag);
     }
 

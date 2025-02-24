@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Media } from "./media.entity";
 import { PlaceCategories } from "./place-categories.entity";
+import { PlaceTags } from "./place-tags.entity";
 export enum PlaceType {
     RESTAURANT = "restaurant",
     PARK = "park",
@@ -34,4 +35,8 @@ export class Places {
     // 🔹 Relación con PlaceCategories
     @OneToMany(() => PlaceCategories, (placeCategory) => placeCategory.places)
     placeCategories: PlaceCategories[];
+
+    // 🔹 Relación con PlaceTags
+    @OneToMany(() => PlaceTags, (placeTag) => placeTag.places)
+    placeTags: PlaceTags[];
     }
