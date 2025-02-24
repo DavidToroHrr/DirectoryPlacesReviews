@@ -16,6 +16,7 @@ services:
       - MONGO_PORT=27017
       - MONGO_USER=DavidToroHrr
       - MONGO_PASSWORD=12345
+      - MONGO_DATABASE=DirectorioMongo
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
       - MYSQL_USER=root
