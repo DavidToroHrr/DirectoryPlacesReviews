@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ReviewDto } from '../interfaces/review-dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Review, ReviewDocument } from '../schemas/review.schema';
 import { Model } from 'mongoose';
+import { CreateReviewDto } from '../interfaces/review-dto';
 
 /**
- * Service responsible for handling Review-related operations.
+ * Service responsible for handling review-related operations.
  */
 @Injectable()
 export class ReviewsService {
@@ -18,54 +18,30 @@ export class ReviewsService {
   ) {}
 
   /**
-   * Creates and saves a new review in the database.
+   * Creates and saves a new review in the database, storing the image as Base64.
    * @param review DTO containing review details.
    * @returns The newly created Review document.
    */
-  async createReview(review: ReviewDto): Promise<ReviewDocument> {
+  async createReview(review: CreateReviewDto): Promise<ReviewDocument> {
     const newReview = await this.reviewModel.create(review);
     return newReview;
   }
 
   /**
-   * Finds a specific review by its ID.
+   * Retrieves a review by its ID.
    * @param id The ID of the review.
-   * @returns The corresponding Review document or `null` if not found.
+   * @returns The review document if found, otherwise null.
    */
-  async findReviewWhitId(id: number): Promise<ReviewDocument | null> {
-    const review = await this.reviewModel.findById(id).exec();
-    return review;
-  }
-
-  /**
-   * Retrieves all reviews from the database.
-   * @returns An array of all stored Review documents.
-   */
-  async findAllReviews(): Promise<ReviewDocument[]> {
-    const reviews = await this.reviewModel.find().exec();
-    return reviews;
-  }
-
-  /**
-   * Updates an existing review with new data.
-   * @param id The ID of the review to update.
-   * @param review DTO containing the updated data.
-   * @returns The updated Review document or `null` if not found.
-   */
-  async updateReview(id: number, review: ReviewDto): Promise<ReviewDocument | null> {
-    const updatedReview = await this.reviewModel.findByIdAndUpdate(id, review, {
-      new: true, // Returns the updated document instead of the old one
-    });
-    return updatedReview;
+  async getReviewById(id: string): Promise<ReviewDocument | null> {
+    return this.reviewModel.findById(id).exec();
   }
 
   /**
    * Deletes a review by its ID.
    * @param id The ID of the review to delete.
-   * @returns The deleted Review document or `null` if not found.
+   * @returns The deleted review document or null if not found.
    */
-  async removeReview(id: number): Promise<ReviewDocument | null> {
-    const deletedReview = await this.reviewModel.findByIdAndDelete(id);
-    return deletedReview;
+  async removeReview(id: string): Promise<ReviewDocument | null> {
+    return this.reviewModel.findByIdAndDelete(id);
   }
 }

@@ -1,60 +1,77 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Express } from 'express';
+import { Controller, Post, Body, Get, UseInterceptors, UploadedFile, Param, Delete } from '@nestjs/common';
 import { ReviewsService } from '../services/review.service';
-import { ReviewDto } from '../interfaces/review-dto';
+import { CreateReviewDto } from '../interfaces/review-dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('reviews') // Defines the controller for managing reviews
+/**
+ * Controller responsible for handling review-related HTTP requests.
+ */
+@Controller('reviews')
 export class ReviewsController {
-  constructor(private reviewsService: ReviewsService) {}
-    // Injecting the service to handle review-related business logic
-
-  /**
-   * Creates a new review entry
-   * @param review DTO containing review details
-   * @returns The newly created review
-   */
-  @Post()
-  async createReview(@Body() review: ReviewDto) {
-    return this.reviewsService.createReview(review);
-  }
-
-  /**
-   * Retrieves a specific review by its ID
-   * @param id The ID of the review
-   * @returns The requested review
-   */
-  @Get(':id')
-  async getReviewWhitId(@Param('id') id: number) {
-    return this.reviewsService.findReviewWhitId(id);
-  }
-
-
-  /**
-   * Retrieves all reviews from the database
-   * @returns An array of all reviews
-   */
-  @Get()
-  async getAllReviews() {
-    return this.reviewsService.findAllReviews();
-  }
+    
+    /**
+     * Constructor that injects the reviews service.
+     * @param reviewsService - The service handling business logic for review operations.
+     */
+    constructor(private reviewsService: ReviewsService) {}
 
     /**
-   * Updates an existing review by its ID
-   * @param id The ID of the review to update
-   * @param review DTO containing updated review details
-   * @returns The updated review
-   */
-  @Put(':id')
-  async updateReview(@Param('id') id: number, @Body() review: ReviewDto) {
-    return this.reviewsService.updateReview(id, review);
-  }
+     * Endpoint to create a new review with an image.
+     * Uses an interceptor to handle file uploads.
+     * @param file - The uploaded image file.
+     * @param newReview - The data transfer object (DTO) containing review details.
+     * @returns The newly created review entry.
+     */
+    @Post()
+    @UseInterceptors(FileInterceptor('image')) // Interceptor para recibir la imagen
+    async createReview(
+        @UploadedFile() file: Express.Multer.File,
+        @Body() newReview: CreateReviewDto
+    ) {
+        if (!file) {
+            return { message: 'No image was uploaded' };
+        }
+
+        // 🔹 Convertir la imagen a Base64 sin compresión
+        const base64Image = file.buffer.toString('base64');
+
+        return this.reviewsService.createReview({
+            ...newReview,
+            image: base64Image, // 🔹 Almacenar la imagen en Base64
+        });
+    }
 
     /**
-   * Deletes a review by its ID
-   * @param id The ID of the review to delete
-   * @returns A confirmation message or response
-   */
-  @Delete(':id')
-  async removeReview(@Param('id') id: number) {
-    return this.reviewsService.removeReview(id);
-  }
+     * Endpoint to retrieve a review by its ID.
+     * @param id - The ID of the review record.
+     * @returns The review record containing the image and metadata.
+     */
+    @Get(':id')
+    async getReview(@Param('id') id: string) {
+        const review = await this.reviewsService.getReviewById(id);
+        if (!review) {
+            return { message: 'Review not found' };
+        }
+
+        return {
+            id: review._id,
+            userId: review.userId,
+            placeId: review.placeId,
+            comment: review.comment,
+            rating: review.rating,
+            createdAt: review.createdAt,
+            image: `data:image/jpeg;base64,${review.image}`, // 🔹 Formato Base64 para frontend
+        };
+    }
+
+    /**
+     * Deletes a review by its ID.
+     * @param id - The ID of the review to delete.
+     * @returns A confirmation message or response.
+     */
+    @Delete(':id')
+    async removeReview(@Param('id') id: string) {
+        return this.reviewsService.removeReview(id);
+    }
 }
