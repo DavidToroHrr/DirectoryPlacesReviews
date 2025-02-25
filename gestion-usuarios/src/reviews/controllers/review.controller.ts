@@ -23,10 +23,35 @@ export class ReviewsController {
      * @param newReview - The data transfer object (DTO) containing review details.
      * @returns The newly created review entry.
      */
+
+
+    // @Post()
+    // async createReview(){
+    //   return "holamundo"
+    // }
+    // @Post()
+    // @UseInterceptors(FileInterceptor('image')) // Interceptor para recibir la imagen
+    // async createReview(
+    //     @UploadedFile() file: Express.Multer.File,
+    //     @Body() newReview: CreateReviewDto
+    // ) {
+    //     if (!file) {
+    //         return { message: 'No image was uploaded' };
+    //     }
+
+    //     // 🔹 Convertir la imagen a Base64 sin compresión
+    //     const base64Image = file.buffer.toString('base64');
+
+    //     return this.reviewsService.createReview({
+    //         ...newReview,
+    //         image: base64Image, // 🔹 Almacenar la imagen en Base64
+    //     });
+    // }}
+
     @Post()
     @UseInterceptors(FileInterceptor('image')) // Interceptor para recibir la imagen
     async createReview(
-        @UploadedFile() file: Express.Multer.File,
+        @UploadedFile() file,
         @Body() newReview: CreateReviewDto
     ) {
         if (!file) {
@@ -41,6 +66,8 @@ export class ReviewsController {
             image: base64Image, // 🔹 Almacenar la imagen en Base64
         });
     }
+
+
 
     /**
      * Endpoint to retrieve a review by its ID.

@@ -32,7 +32,7 @@ import { ModificationHistoryService } from '../modificationHistory/services/modi
 @Module({
     imports: [
         TypeOrmModule.forFeature([Categories, Places, Tags, Media, PlaceCategories, PlaceTags]),
-        ModificationHistoryModule, // 👈 Importamos el módulo de historial de MongoDB
+        ModificationHistoryModule, // Importamos el módulo de historial de MongoDB
     ],
     controllers: [
         CategoryController,
@@ -49,7 +49,7 @@ import { ModificationHistoryService } from '../modificationHistory/services/modi
         MediaService,
         PlaceCategoriesService,
         PlaceTagsService,
-        ModificationHistoryService, // 👈 Asegúrate de agregar el servicio aquí
+        ModificationHistoryService, // Asegúrate de agregar el servicio aquí
     ],
 })
 export class PlacesModule {}
