@@ -4,11 +4,18 @@ import { Places } from 'src/places/entities/places.entity';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreatePlace } from '../dto/create-place';
 
+// Importar ModificationHistoryService
+import { ModificationHistoryService } from '../../modificationHistory/services/modificationHistory.service';
+import { ModificationHistoryDto } from '../../modificationHistory/interfaces/modificationHistory-dto';
+
 @Injectable()
 export class PlacesService {
     constructor(
         // Injecting the repository for the Places entity
-        @InjectRepository(Places) private placesRepository: Repository<Places>
+        @InjectRepository(Places) private placesRepository: Repository<Places>,
+        
+        // Inyectamos ModificationHistoryService para registrar en MongoDB
+        private readonly modificationHistoryService: ModificationHistoryService
     ) {}
 
     /**
@@ -27,8 +34,18 @@ export class PlacesService {
         };
 
         // Create and save the new place
-        const createdPlace = this.placesRepository.create(newModel);
-        return await this.placesRepository.save(createdPlace);
+        const createdPlace = await this.placesRepository.save(this.placesRepository.create(newModel));
+
+        // 📌 Registrar la operación en MongoDB
+        const historyEntry: ModificationHistoryDto = {
+            operationType: "add",
+            plc_id: createdPlace.plc_id, // ID del lugar creado
+            modifiedAt: new Date(),
+        };
+
+        await this.modificationHistoryService.createModification(historyEntry);
+
+        return createdPlace;
     }
 
     /**

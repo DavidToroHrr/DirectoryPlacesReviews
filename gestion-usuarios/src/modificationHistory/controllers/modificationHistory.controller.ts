@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { ModificationHistoryService } from '../services/modificationHistory.service';
 import { ModificationHistoryDto } from '../interfaces/modificationHistory-dto';
 
@@ -39,8 +39,8 @@ export class ModificationHistoryController {
    * @returns The modification record corresponding to the given ID.
    */
   @Get(':id')
-  async getModificationWhitId(@Param('id') id: number) {
-    return this.modificationHistoryService.findModificationWhitId(id);
+  async getModificationById(@Param('id') id: string) {
+    return this.modificationHistoryService.findModificationById(id);
   }
 
   /**
@@ -49,7 +49,7 @@ export class ModificationHistoryController {
    * @returns A response indicating the result of the deletion.
    */
   @Delete(':id')
-  async removeModification(@Param('id') id: number) {
-    return this.modificationHistoryService.removeModifications(id);
+  async removeModification(@Param('id') id: string) {
+    return this.modificationHistoryService.removeModification(id);
   }
 }

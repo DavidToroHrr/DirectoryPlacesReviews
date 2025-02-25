@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlacesModule } from './places/places.module';  
-import { ModificationModule } from './modificationHistory/modificationsHistory.module';
+import { ModificationHistoryModule } from './modificationHistory/modificationsHistory.module';
 import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
@@ -14,7 +14,7 @@ import { ReviewsModule } from './reviews/reviews.module';
      * - `ReviewsModule`: Manages user reviews and Q&A functionality.
      */
     PlacesModule, 
-    ModificationModule,
+    ModificationHistoryModule,
     ReviewsModule,
 
     /**

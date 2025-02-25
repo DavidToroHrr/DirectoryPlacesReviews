@@ -4,28 +4,19 @@ import { ModificationHistoryController } from "./controllers/modificationHistory
 import { ModificationHistoryService } from "./services/modificationHistory.service";
 import { ModificationHistory, ModificationHistorySchema } from "./schemas/modificationHistory.schema";
 
-/**
- * Module responsible for managing modification history-related components.
- */
 @Module({
-    /**
-     * Registers the controller for handling HTTP requests related to modification history.
-     */
-    controllers: [ModificationHistoryController],
-
-    /**
-     * Registers the service for handling business logic related to modification history.
-     */
-    providers: [ModificationHistoryService],
-
-    /**
-     * Imports the Mongoose module and registers the ModificationHistory schema.
-     * This enables database interactions with the modification history collection.
-     */
     imports: [
         MongooseModule.forFeature([
+            { name: ModificationHistory.name, schema: ModificationHistorySchema }, // Asegúrate de registrar el modelo
+        ]),
+    ],
+    controllers: [ModificationHistoryController],
+    providers: [ModificationHistoryService],
+    exports: [
+        ModificationHistoryService, 
+        MongooseModule.forFeature([ // 👈 Exportamos el modelo para poder usarlo en otros módulos
             { name: ModificationHistory.name, schema: ModificationHistorySchema },
         ]),
     ],
 })
-export class ModificationModule {}
+export class ModificationHistoryModule {}

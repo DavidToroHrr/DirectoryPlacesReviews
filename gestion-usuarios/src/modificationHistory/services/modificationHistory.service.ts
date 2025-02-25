@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ModificationHistoryDto } from '../interfaces/modificationHistory-dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { ModificationHistory, ModificationHistoryDocument } from '../schemas/modificationHistory.schema';
 import { Model } from 'mongoose';
+import { ModificationHistoryDto } from '../interfaces/modificationHistory-dto';
 
 /**
  * Service responsible for handling modification history operations.
@@ -12,17 +12,17 @@ export class ModificationHistoryService {
   
   /**
    * Constructor that injects the Mongoose model for modification history.
-   * @param ModificationModel - The Mongoose model for handling database operations related to modification history.
+   * @param modificationModel - The Mongoose model for handling database operations related to modification history.
    */
-  constructor(@InjectModel(ModificationHistory.name) private ModificationModel: Model<ModificationHistoryDocument>) {}
+  constructor(@InjectModel(ModificationHistory.name) private modificationModel: Model<ModificationHistoryDocument>) {}
 
   /**
    * Creates a new modification record in the database.
-   * @param Modification - The modification data transfer object (DTO) containing modification details.
+   * @param modification - The modification data transfer object (DTO) containing modification details.
    * @returns The newly created modification document.
    */
-  async createModification(Modification: ModificationHistoryDto): Promise<ModificationHistoryDocument> {
-    const newModification = await this.ModificationModel.create(Modification);
+  async createModification(modification: ModificationHistoryDto): Promise<ModificationHistoryDocument> {
+    const newModification = await this.modificationModel.create(modification);
     return newModification;
   }
 
@@ -31,9 +31,8 @@ export class ModificationHistoryService {
    * @param id - The ID of the modification record to retrieve.
    * @returns The modification record if found, otherwise null.
    */
-  async findModificationWhitId(id: number): Promise<ModificationHistoryDocument | null> {
-    const modification = await this.ModificationModel.findById(id).exec();
-    return modification;
+  async findModificationById(id: string): Promise<ModificationHistoryDocument | null> {
+    return this.modificationModel.findById(id).exec();
   }
 
   /**
@@ -41,8 +40,7 @@ export class ModificationHistoryService {
    * @returns An array of all stored modification records.
    */
   async findAllModifications(): Promise<ModificationHistoryDocument[]> {
-    const modifications = await this.ModificationModel.find().exec();
-    return modifications;
+    return this.modificationModel.find().exec();
   }
 
   /**
@@ -50,8 +48,7 @@ export class ModificationHistoryService {
    * @param id - The ID of the modification record to be deleted.
    * @returns The deleted modification record if found, otherwise null.
    */
-  async removeModifications(id: number): Promise<ModificationHistoryDocument | null> {
-    const removeModifications = await this.ModificationModel.findByIdAndDelete(id);
-    return removeModifications;
+  async removeModification(id: string): Promise<ModificationHistoryDocument | null> {
+    return this.modificationModel.findByIdAndDelete(id);
   }
 }
