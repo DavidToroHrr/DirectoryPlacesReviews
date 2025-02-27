@@ -17,6 +17,9 @@ export class ReviewsService {
     private reviewModel: Model<ReviewDocument>
   ) {}
 
+  async findAllReviews(): Promise<ReviewDocument[]> {
+    return this.reviewModel.find().exec();
+  }
   /**
    * Creates and saves a new review in the database, storing the image as Base64.
    * @param review DTO containing review details.
@@ -24,6 +27,7 @@ export class ReviewsService {
    */
   async createReview(review: CreateReviewDto): Promise<ReviewDocument> {
     const newReview = await this.reviewModel.create(review);
+    
     return newReview;
   }
 

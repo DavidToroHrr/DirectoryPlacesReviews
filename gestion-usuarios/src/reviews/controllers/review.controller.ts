@@ -74,6 +74,20 @@ export class ReviewsController {
      * @param id - The ID of the review record.
      * @returns The review record containing the image and metadata.
      */
+
+    @Get()
+    async getAllReviews() {
+        const reviews = await this.reviewsService.findAllReviews();
+        return reviews.map(review => ({
+            id: review.id,
+            userId: review.userId,
+            placeId: review.placeId,
+            comment: review.comment,
+            rating: review.rating,
+            createdAt: review.createdAt,
+            // image: `data:image/jpeg;base64,${review.image}`, // 🔹 Formato Base64 para frontend
+        }));
+    }
     @Get(':id')
     async getReview(@Param('id') id: string) {
         const review = await this.reviewsService.getReviewById(id);
@@ -82,7 +96,7 @@ export class ReviewsController {
         }
 
         return {
-            id: review._id,
+            id: review.id,
             userId: review.userId,
             placeId: review.placeId,
             comment: review.comment,

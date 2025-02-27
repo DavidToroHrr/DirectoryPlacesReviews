@@ -26,7 +26,7 @@ export class MediaController {
     @Post()
     @UseInterceptors(FileInterceptor('md_image'))
     async createMedia(
-        @UploadedFile() file: Express.Multer.File,
+        @UploadedFile() file,
         @Body() newMedia: CreateMedia
     ) {
         if (!file) {

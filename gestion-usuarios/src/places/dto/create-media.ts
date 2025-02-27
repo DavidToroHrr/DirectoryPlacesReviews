@@ -4,7 +4,7 @@ import { IsString, IsOptional, IsNumber } from 'class-validator';
  * Data Transfer Object (DTO) for creating media records.
  */
 export class CreateMedia {
-  
+
     /**
      * Optional unique identifier for the media.
      */
